@@ -1,0 +1,23 @@
+.logo {
+    width: 55px;
+    height: 55px;
+    margin-top: -20px;
+}
+
+.navbar {
+    background-color: #051320;
+}
+
+.navbar-toggler-icon {
+    color: white;
+    background-color: #051320;
+}
+
+.custom-toggler .navbar-toggler-icon {
+    color: white;
+}
+
+.nav-item {
+    margin-left: 10px;
+    margin-right: 10px;
+}
