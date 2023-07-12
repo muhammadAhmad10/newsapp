@@ -7,24 +7,22 @@ function FrontPage({ selectedOption }) {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [newsPerPage] = useState(10);
+  // const apiKeyPrev = "89c85b603c3040179a34adcf3ce234d4";
+  const apiKey = "ee2e2fc153ed4eb18c4af8744a6eddce";
 
   useEffect(() => {
     var url = "https://newsapi.org/v2/";
     if (selectedOption === "home") {
-      url +=
-        "everything?q=mixed&from=2023-06-11&sortBy=publishedAt&apiKey=89c85b603c3040179a34adcf3ce234d4";
+      url += `everything?q=mixed&from=2023-06-12&sortBy=publishedAt&apiKey=${apiKey}`;
     }
     if (selectedOption === "latest") {
-      url +=
-        "top-headlines?category=sports&from=2023-06-11&sortBy=publishedAt&apiKey=89c85b603c3040179a34adcf3ce234d4";
+      url += `top-headlines?category=sports&from=2023-06-12&sortBy=publishedAt&apiKey=${apiKey}`;
     }
     if (selectedOption === "tech") {
-      url +=
-        "everything?q=tech&from=2023-06-11&sortBy=publishedAt&apiKey=89c85b603c3040179a34adcf3ce234d4";
+      url += `everything?q=tech&from=2023-06-12&sortBy=publishedAt&apiKey=${apiKey}`;
     }
     if (selectedOption === "sports") {
-      url +=
-        "everything?q=sports&from=2023-06-11&sortBy=publishedAt&apiKey=89c85b603c3040179a34adcf3ce234d4";
+      url += `everything?q=sports&from=2023-06-12&sortBy=publishedAt&apiKey=${apiKey}`;
     }
 
     fetchData({ url: url }).then((data) => {
@@ -90,12 +88,20 @@ function FrontPage({ selectedOption }) {
   // Calculate total number of pages
   const totalPages = Math.ceil(data.length / newsPerPage);
 
+  const currentDate = () => {
+    const options = { year: "numeric", month: "short", day: "numeric" };
+    const formattedDate = new Date().toLocaleDateString(undefined, options);
+    return formattedDate;
+  };
+
   return (
-    <div className="container justify-content-center d-flex flex-wrap flex-row mt-5">
-      <ul className="container justify-content-center d-flex flex-wrap">
+    <div className="container main justify-content-center d-flex flex-column flex-wrap flex-row mt-4">
+      <h1>Your briefing</h1>
+      <h5 className="text-secondary">{currentDate()}</h5>
+      <ul className="container justify-content-center d-flex flex-wrap mt-4">
         {newsList}
       </ul>
-      <Pagination className="mt-4">
+      <Pagination className="mt-4 d-flex justify-content-center">
         <Pagination.Prev
           onClick={handlePreviousPage}
           disabled={currentPage === 1}

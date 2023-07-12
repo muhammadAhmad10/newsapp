@@ -55,6 +55,10 @@ img {
     margin-bottom: -1rem;
 }
 
+.main {
+    min-height: 50vh;
+}
+
 @media screen and (max-width:450px) {
     .card {
         height: 790px;
