@@ -33,13 +33,13 @@ const Footer = () => {
           <div className="col-lg-4 col-md-12">
             <h5 className="mt-3">Follow Us</h5>
             <div className="social-icons">
-              <a href="#" className="icon-link">
+              <a href="www.facebook.com" className="icon-link">
                 <FontAwesomeIcon icon={faFacebookF} />
               </a>
-              <a href="#" className="icon-link">
+              <a href="www.twitter.com" className="icon-link">
                 <FontAwesomeIcon icon={faTwitter} />
               </a>
-              <a href="#" className="icon-link">
+              <a href="www.instagram.com" className="icon-link">
                 <FontAwesomeIcon icon={faInstagram} />
               </a>
             </div>
@@ -57,13 +57,13 @@ const Footer = () => {
             <div className="col-md-6">
               <ul className="footer-links text-center">
                 <li>
-                  <a href="#">Privacy Policy</a>
+                  <a href="privary">Privacy Policy</a>
                 </li>
                 <li>
-                  <a href="#">Terms of Service</a>
+                  <a href="terms">Terms of Service</a>
                 </li>
                 <li>
-                  <a href="#">Cookie Policy</a>
+                  <a href="coockie">Cookie Policy</a>
                 </li>
               </ul>
             </div>

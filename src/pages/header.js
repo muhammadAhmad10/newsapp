@@ -1,5 +1,6 @@
 import React from "react";
 import "../styles/header.css";
+import { Link } from "react-router-dom";
 
 const Header = ({ handleOptionChange }) => {
   const handleOptionClick = (option) => {
@@ -9,7 +10,7 @@ const Header = ({ handleOptionChange }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark">
       <div className="container-fluid">
-        <a className="navbar-brand" href="home">
+        <a className="navbar-brand" href="/">
           <img
             className="logo"
             src={process.env.PUBLIC_URL + "/logo1.png"}
@@ -30,41 +31,41 @@ const Header = ({ handleOptionChange }) => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <a
+              <Link
                 className="nav-link active"
-                aria-current="page"
-                href="home"
+                to={"/"}
                 onClick={() => handleOptionClick("home")}
               >
                 Home
-              </a>
+              </Link>
             </li>
-            <li className="nav-item">
-              <a
+            <li>
+              <Link
                 className="nav-link"
-                href="#"
+                to={"/latest"}
                 onClick={() => handleOptionClick("latest")}
               >
                 Latest
-              </a>
+              </Link>
             </li>
-            <li className="nav-item">
-              <a
+            <li>
+              <Link
                 className="nav-link"
-                href="#"
+                to={"/tech"}
                 onClick={() => handleOptionClick("tech")}
               >
                 Tech
-              </a>
+              </Link>
             </li>
-            <li className="nav-item">
-              <a
+
+            <li>
+              <Link
                 className="nav-link"
-                href="#"
+                to={"/sports"}
                 onClick={() => handleOptionClick("sports")}
               >
                 Sports
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

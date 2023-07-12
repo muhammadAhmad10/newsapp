@@ -135,7 +135,6 @@ export const fetchData = async ({ url }) => {
   ];
 
   try {
-    console.log(url);
     const response = await axios.get(url);
     // console.log(response.data.articles);
     // console.log("response is: ", response);
