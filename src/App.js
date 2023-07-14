@@ -22,27 +22,34 @@ function App() {
   const [password, setPassword] = useState("");
   const [checkBox, setCheckBox] = useState(true);
   const isLogin = JSON.parse(localStorage.getItem("isLogin"));
+  const [disableButton, setDisableButton] = useState(false);
 
-  const handleOperation = async (id) => {
+  const handleOperation = async (type) => {
+    setDisableButton(true);
     const auth = getAuth();
-    if (id === "register") {
-      await createUserWithEmailAndPassword(auth, email, password).then(
-        (res) => {
-          localStorage.setItem("isLogin", JSON.stringify("login"));
-          localStorage.setItem("durationOfLogin", JSON.stringify(checkBox));
+    if (email !== "" && password !== "") {
+      if (type === "register") {
+        await createUserWithEmailAndPassword(auth, email, password).then(
+          (res) => {
+            localStorage.setItem("isLogin", JSON.stringify("login"));
+            localStorage.setItem("durationOfLogin", JSON.stringify(checkBox));
+            setDisableButton(false);
+            navigate("/home");
+            // console.log("user registered successfully!");
+          }
+        );
+      } else if (type === "login") {
+        await signInWithEmailAndPassword(auth, email, password);
+        localStorage.setItem("isLogin", JSON.stringify("login"));
+        localStorage.setItem("durationOfLogin", JSON.stringify(checkBox));
+        setDisableButton(false);
 
-          navigate("/home");
-          // console.log("user registered successfully!");
-        }
-      );
-    }
-    if (id === "login") {
-      await signInWithEmailAndPassword(auth, email, password);
-      localStorage.setItem("isLogin", JSON.stringify("login"));
-      localStorage.setItem("durationOfLogin", JSON.stringify(checkBox));
-
-      navigate("/home");
-      // console.log("user login successfully!");
+        navigate("/home");
+        // console.log("user login successfully!");
+      }
+    } else {
+      alert("Please fill all the fields");
+      setDisableButton(false);
     }
     // console.log("button clicked is: ", id);
   };
@@ -53,11 +60,11 @@ function App() {
 
   useEffect(() => {
     const check = JSON.parse(localStorage.getItem("durationOfLogin"));
-    if (check === true) {
+    if (check === false) {
       setTimeout(() => {
         setSelectedOption("logout");
         //2 days in ms = 172800000
-      }, 60000);
+      }, 17280000);
     }
   });
 
@@ -69,7 +76,8 @@ function App() {
     }
   }, [selectedOption]);
 
-  const showHeaderAndFooter = location.pathname !== "/login";
+  const showHeaderAndFooter =
+    location.pathname !== "/login" || location.pathname !== "/register";
   // console.log("header & footer: ", showHeaderAndFooter);
 
   return (
@@ -119,6 +127,7 @@ function App() {
                   forgotPassword={true}
                   buttonText="Sign in"
                   secondText="Not a member?"
+                  disableButton={disableButton}
                 />
               }
             />
@@ -138,6 +147,7 @@ function App() {
                   forgotPassword={false}
                   buttonText="Create account"
                   secondText="Have an accound?"
+                  disableButton={disableButton}
                 />
               }
             />

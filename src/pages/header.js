@@ -98,7 +98,7 @@ const Header = ({ handleOptionChange }) => {
                 <li>
                   <Link
                     className="nav-link"
-                    to={"/login"}
+                    to={"/register"}
                     onClick={() => handleOptionClick("register")}
                   >
                     Register

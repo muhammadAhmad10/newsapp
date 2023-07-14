@@ -8,6 +8,7 @@ function FrontPage({ selectedOption }) {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const isLogin = JSON.parse(localStorage.getItem("isLogin"));
+  const [disableButton, setDisableButton] = useState(false);
 
   const [newsPerPage] = useState(10);
   const [loading, setLoading] = useState(false);
@@ -36,6 +37,7 @@ function FrontPage({ selectedOption }) {
       url += `everything?q=sports&from=2023-06-12&sortBy=publishedAt&apiKey=${apiKey}`;
     }
     setLoading(true);
+    setDisableButton(true);
     fetchData({
       url: url,
       selectedOption: selectedOption,
@@ -45,8 +47,14 @@ function FrontPage({ selectedOption }) {
         setData(data);
       })
       .finally(() => {
-        setReloadData(false);
         setLoading(false);
+        setReloadData(false);
+
+        // if (loading) {
+        setTimeout(() => {
+          setDisableButton(false);
+        }, 10000);
+        // }
       });
     setTimeout(() => {
       fetchData({
@@ -147,6 +155,7 @@ function FrontPage({ selectedOption }) {
           <h1>Your briefing</h1>
           {isLogin === "login" ? (
             <button
+              disabled={disableButton}
               className="btn btn-primary"
               onClick={() => {
                 console.log("starting reload: ", reloadData);

@@ -13,6 +13,7 @@ export default function Login({
   forgotPassword,
   buttonText,
   secondText,
+  disableButton,
 }) {
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -92,6 +93,7 @@ export default function Login({
             <button
               className="btn btn-primary"
               type="button"
+              disabled={disableButton}
               onClick={handleOperation}
             >
               {buttonText}
