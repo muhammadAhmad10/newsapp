@@ -7,11 +7,19 @@ import Loader from "./Loader";
 function FrontPage({ selectedOption }) {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const isLogin = JSON.parse(localStorage.getItem("isLogin"));
+
   const [newsPerPage] = useState(10);
   const [loading, setLoading] = useState(false);
-  // const apiKeyPrev = "89c85b603c3040179a34adcf3ce234d4"; //mahmdras21@gmail.com
-  // const apiKey = "ee2e2fc153ed4eb18c4af8744a6eddce"; //fa20-bcs-027@cuilahore.edu.pk
-  const apiKey = "c9c2023a92284b81b552a02519177eec"; //ahmadcs442@gmail.com
+  const [reloadData, setReloadData] = useState(false);
+  //const apiKey = "89c85b603c3040179a34adcf3ce234d4"; //mahmdras21@gmail.com
+  const apiKey = "ee2e2fc153ed4eb18c4af8744a6eddce"; //fa20-bcs-027@cuilahore.edu.pk
+  //const apiKey = "c9c2023a92284b81b552a02519177eec"; //ahmadcs442@gmail.com
+
+  // useEffect(() => {
+  //   console.log("useEffect called");
+  //   localStorage.clear();
+  // }, []);
 
   useEffect(() => {
     var url = "https://newsapi.org/v2/";
@@ -28,14 +36,33 @@ function FrontPage({ selectedOption }) {
       url += `everything?q=sports&from=2023-06-12&sortBy=publishedAt&apiKey=${apiKey}`;
     }
     setLoading(true);
-    fetchData({ url: url })
+    fetchData({
+      url: url,
+      selectedOption: selectedOption,
+      reloadData: reloadData,
+    })
       .then((data) => {
         setData(data);
       })
       .finally(() => {
+        setReloadData(false);
         setLoading(false);
       });
-  }, [selectedOption]);
+    setTimeout(() => {
+      fetchData({
+        url: url,
+        selectedOption: selectedOption,
+        reloadData: true,
+      })
+        .then((data) => {
+          setData(data);
+        })
+        .finally(() => {
+          setReloadData(false);
+          setLoading(false);
+        });
+    }, 1000000);
+  }, [selectedOption, reloadData]);
 
   const getDate = (date) => {
     const options = { year: "numeric", month: "short", day: "numeric" };
@@ -43,7 +70,7 @@ function FrontPage({ selectedOption }) {
     return formattedDate;
   };
 
-  // Calculate the indexes of the first and last news articles to display
+  // Calculate the indexes of the first and last news articles to display on each page
   const indexOfLastNews = currentPage * newsPerPage;
   const indexOfFirstNews = indexOfLastNews - newsPerPage;
   const currentNews = data.slice(indexOfFirstNews, indexOfLastNews);
@@ -53,11 +80,11 @@ function FrontPage({ selectedOption }) {
   };
 
   const handlePreviousPage = () => {
-    setCurrentPage((prevPage) => prevPage - 1);
+    setCurrentPage((currentPage) => currentPage - 1);
   };
 
   const handleNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
+    setCurrentPage((currentPage) => currentPage + 1);
   };
 
   const newsList = currentNews.map((news, index) => (
@@ -66,8 +93,14 @@ function FrontPage({ selectedOption }) {
       className="card m-2"
       style={{ width: "21rem", padding: "0rem" }}
     >
-      {news.urlToImage && (
-        <img src={news.urlToImage} className="card-img-top " alt="news" />
+      {news.urlToImage ? (
+        <img src={news.urlToImage} className="card-img-top" alt="news" />
+      ) : (
+        <img
+          src={process.env.PUBLIC_URL + "/default.jpeg"}
+          className="card-img-top"
+          alt="news"
+        />
       )}
 
       <div className="card-body">
@@ -110,8 +143,21 @@ function FrontPage({ selectedOption }) {
       {loading ? (
         <Loader />
       ) : (
-        <div className="container main justify-content-center align-items-center d-flex flex-column flex-wrap flex-row mt-4">
+        <div className="container main justify-content-center position-relative align-items-center d-flex flex-column flex-wrap flex-row mt-4 mb-5">
           <h1>Your briefing</h1>
+          {isLogin === "login" ? (
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                console.log("starting reload: ", reloadData);
+                setReloadData(true);
+                console.log("ending reload", reloadData);
+              }}
+              style={{ position: "absolute", top: "5px", right: "0px" }}
+            >
+              Reload
+            </button>
+          ) : null}
           <h5 className="text-secondary">{currentDate()}</h5>
           <ul className="container justify-content-center d-flex flex-wrap mt-4">
             {newsList}

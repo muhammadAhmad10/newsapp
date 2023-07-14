@@ -6,6 +6,7 @@ const Header = ({ handleOptionChange }) => {
   const handleOptionClick = (option) => {
     handleOptionChange(option);
   };
+  const isLogin = JSON.parse(localStorage.getItem("isLogin"));
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark">
@@ -28,45 +29,83 @@ const Header = ({ handleOptionChange }) => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <Link
-                className="nav-link active"
-                to={"/"}
-                onClick={() => handleOptionClick("home")}
-              >
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link
-                className="nav-link"
-                to={"/latest"}
-                onClick={() => handleOptionClick("latest")}
-              >
-                Latest
-              </Link>
-            </li>
-            <li>
-              <Link
-                className="nav-link"
-                to={"/tech"}
-                onClick={() => handleOptionClick("tech")}
-              >
-                Tech
-              </Link>
-            </li>
+        <div className={`collapse navbar-collapse`} id="navbarSupportedContent">
+          <ul
+            className={`navbar-nav ${
+              isLogin === "login" ? "me-auto" : "ms-auto"
+            } mb-2 mb-lg-0`}
+          >
+            {isLogin === "login" ? (
+              <>
+                <li className="nav-item">
+                  <Link
+                    className="nav-link active"
+                    to={"/"}
+                    onClick={() => handleOptionClick("home")}
+                  >
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="nav-link"
+                    to={"/latest"}
+                    onClick={() => handleOptionClick("latest")}
+                  >
+                    Latest
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="nav-link"
+                    to={"/tech"}
+                    onClick={() => handleOptionClick("tech")}
+                  >
+                    Tech
+                  </Link>
+                </li>
 
-            <li>
-              <Link
-                className="nav-link"
-                to={"/sports"}
-                onClick={() => handleOptionClick("sports")}
-              >
-                Sports
-              </Link>
-            </li>
+                <li>
+                  <Link
+                    className="nav-link"
+                    to={"/sports"}
+                    onClick={() => handleOptionClick("sports")}
+                  >
+                    Sports
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="nav-link"
+                    to={"/"}
+                    onClick={() => handleOptionClick("logout")}
+                  >
+                    logout
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <li className="">
+                  <Link
+                    className="nav-link"
+                    to={"/login"}
+                    onClick={() => handleOptionClick("login")}
+                  >
+                    Login
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="nav-link"
+                    to={"/login"}
+                    onClick={() => handleOptionClick("register")}
+                  >
+                    Register
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </div>

@@ -12,7 +12,7 @@ const Footer = () => {
     <footer className="footer">
       <div className="container">
         <div className="row">
-          <div className="col-lg-4 col-md-6">
+          <div className="col-lg-4 col-md-6  d-flex flex-column align-items-center">
             <h5 className="mt-3">About</h5>
             <p>
               Our news app, based in Lahore, Pakistan, is your one-stop
@@ -22,7 +22,7 @@ const Footer = () => {
               world.
             </p>
           </div>
-          <div className="col-lg-4 col-md-6">
+          <div className="col-lg-4 col-md-6  d-flex flex-column align-items-center">
             <h5 className="mt-3 contactH5">Contact</h5>
             <ul className="contact-list">
               <li>Email: globalnews@gmail.com</li>
@@ -30,9 +30,9 @@ const Footer = () => {
               <li>Address: 123 Street, Lahore, Pakistan</li>
             </ul>
           </div>
-          <div className="col-lg-4 col-md-12">
+          <div className="col-lg-4 col-md-12 d-flex flex-column align-items-center">
             <h5 className="mt-3">Follow Us</h5>
-            <div className="social-icons">
+            <div className="social-icons ms-2">
               <a href="www.facebook.com" className="icon-link">
                 <FontAwesomeIcon icon={faFacebookF} />
               </a>

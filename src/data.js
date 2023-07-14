@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const fetchData = async ({ url }) => {
+export const fetchData = async ({ url, selectedOption, reloadData }) => {
   const data = [
     {
       source: {
@@ -135,12 +135,29 @@ export const fetchData = async ({ url }) => {
   ];
 
   try {
-    const response = await axios.get(url);
+    const localStorageData = localStorage.getItem(selectedOption);
+
+    if (localStorageData === null || reloadData === true) {
+      console.log("making api call");
+      const response = await axios.get(url);
+      console.log(response.data.articles);
+      localStorage.setItem(
+        selectedOption,
+        JSON.stringify(response.data.articles)
+      );
+      return JSON.parse(localStorage.getItem(selectedOption));
+    } else {
+      console.log(
+        "not making api call instead fetching data from local storage."
+      );
+      return JSON.parse(localStorageData);
+    }
+
     // console.log(response.data.articles);
     // console.log("response is: ", response);
-    return response.data.articles;
   } catch (error) {
     console.error(error.message);
-    return data;
+    localStorage.setItem(selectedOption, JSON.stringify(data));
+    return JSON.parse(localStorage.getItem(selectedOption));
   }
 };
