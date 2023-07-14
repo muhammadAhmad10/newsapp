@@ -1,5 +1,6 @@
 import "../styles/auth.css";
 import { Link } from "react-router-dom";
+
 export default function Login({
   head,
   title,
@@ -14,6 +15,7 @@ export default function Login({
   buttonText,
   secondText,
   disableButton,
+  errorMessage,
 }) {
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -60,13 +62,19 @@ export default function Login({
               onChange={handlePassword}
             />
           </div>
+          <div
+            style={{ fontSize: "12px", marginBottom: "5px", marginLeft: "2px" }}
+            className="text-danger"
+          >
+            {errorMessage}
+          </div>
 
           <div
             className={`mb-2 d-flex  justify-content-between position-relative ${
               forgotPassword ? "pt-4" : "pt-0"
             }`}
           >
-            <div className="col-md-6 d-flex justify-content-center">
+            <div className="col-md-12 d-flex justify-content-center">
               <div className="form-check mb-3 mb-md-0">
                 <input
                   className="form-check-input"

@@ -23,36 +23,58 @@ function App() {
   const [checkBox, setCheckBox] = useState(true);
   const isLogin = JSON.parse(localStorage.getItem("isLogin"));
   const [disableButton, setDisableButton] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [to, setTo] = useState("");
 
   const handleOperation = async (type) => {
+    setErrorMessage(" ");
     setDisableButton(true);
     const auth = getAuth();
     if (email !== "" && password !== "") {
       if (type === "register") {
-        await createUserWithEmailAndPassword(auth, email, password).then(
-          (res) => {
+        await createUserWithEmailAndPassword(auth, email, password)
+          .then((res) => {
             localStorage.setItem("isLogin", JSON.stringify("login"));
             localStorage.setItem("durationOfLogin", JSON.stringify(checkBox));
             setDisableButton(false);
             navigate("/home");
             // console.log("user registered successfully!");
-          }
-        );
+          })
+          .catch(() => {
+            setErrorMessage(
+              "User already exist, please try different credentials."
+            );
+            setDisableButton(false);
+          });
       } else if (type === "login") {
-        await signInWithEmailAndPassword(auth, email, password);
-        localStorage.setItem("isLogin", JSON.stringify("login"));
-        localStorage.setItem("durationOfLogin", JSON.stringify(checkBox));
-        setDisableButton(false);
+        await signInWithEmailAndPassword(auth, email, password)
+          .then(() => {
+            localStorage.setItem("isLogin", JSON.stringify("login"));
+            localStorage.setItem("durationOfLogin", JSON.stringify(checkBox));
+            setDisableButton(false);
 
-        navigate("/home");
-        // console.log("user login successfully!");
+            navigate("/home");
+            // console.log("user login successfully!");
+          })
+          .catch(() => {
+            setErrorMessage(`Incorrect email or password.`);
+            setDisableButton(false);
+          });
       }
     } else {
-      alert("Please fill all the fields");
+      setErrorMessage("Please fill all the fields");
       setDisableButton(false);
     }
     // console.log("button clicked is: ", id);
   };
+
+  useEffect(() => {
+    setTo(location.pathname);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    setErrorMessage(" ");
+  }, [to]);
 
   const handleOptionChange = (option) => {
     setSelectedOption(option);
@@ -128,6 +150,7 @@ function App() {
                   buttonText="Sign in"
                   secondText="Not a member?"
                   disableButton={disableButton}
+                  errorMessage={errorMessage}
                 />
               }
             />
@@ -148,6 +171,7 @@ function App() {
                   buttonText="Create account"
                   secondText="Have an accound?"
                   disableButton={disableButton}
+                  errorMessage={errorMessage}
                 />
               }
             />
