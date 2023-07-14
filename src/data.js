@@ -136,7 +136,7 @@ export const fetchData = async ({ url, selectedOption, reloadData }) => {
 
   try {
     const localStorageData = localStorage.getItem(selectedOption);
-
+    console.log(url);
     if (localStorageData === null || reloadData === true) {
       console.log("making api call");
       const response = await axios.get(url);

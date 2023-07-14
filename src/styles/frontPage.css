@@ -62,10 +62,17 @@ img {
 @media screen and (max-width:450px) {
     .card {
         height: 790px;
+        min-width: 285px;
     }
 
     .web:last-of-type {
         margin-bottom: 15px;
         font-size: 13px;
+    }
+
+    .reload {
+        margin-top: 60px;
+        margin-bottom: 20px;
+        margin-right: 20px;
     }
 }

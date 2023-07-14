@@ -14,8 +14,9 @@ function FrontPage({ selectedOption }) {
   const [loading, setLoading] = useState(false);
   const [reloadData, setReloadData] = useState(false);
   //const apiKey = "89c85b603c3040179a34adcf3ce234d4"; //mahmdras21@gmail.com
-  const apiKey = "ee2e2fc153ed4eb18c4af8744a6eddce"; //fa20-bcs-027@cuilahore.edu.pk
+  //const apiKey = "ee2e2fc153ed4eb18c4af8744a6eddce"; //fa20-bcs-027@cuilahore.edu.pk
   //const apiKey = "c9c2023a92284b81b552a02519177eec"; //ahmadcs442@gmail.com
+  const apiKey = "5b7e5459b83a470ab05cac10e4429787"; //akaash ki api keys
 
   // useEffect(() => {
   //   console.log("useEffect called");
@@ -25,16 +26,16 @@ function FrontPage({ selectedOption }) {
   useEffect(() => {
     var url = "https://newsapi.org/v2/";
     if (selectedOption === "home") {
-      url += `everything?q=mixed&from=2023-06-12&sortBy=publishedAt&apiKey=${apiKey}`;
+      url += `everything?q=mixed&from=2023-06-14&sortBy=publishedAt&apiKey=${apiKey}`;
     }
     if (selectedOption === "latest") {
-      url += `top-headlines?category=sports&from=2023-06-12&sortBy=publishedAt&apiKey=${apiKey}`;
+      url += `top-headlines?category=sports&from=2023-06-14&sortBy=publishedAt&apiKey=${apiKey}`;
     }
     if (selectedOption === "tech") {
-      url += `everything?q=tech&from=2023-06-12&sortBy=publishedAt&apiKey=${apiKey}`;
+      url += `everything?q=tech&from=2023-06-14&sortBy=publishedAt&apiKey=${apiKey}`;
     }
     if (selectedOption === "sports") {
-      url += `everything?q=sports&from=2023-06-12&sortBy=publishedAt&apiKey=${apiKey}`;
+      url += `everything?q=sports&from=2023-06-14&sortBy=publishedAt&apiKey=${apiKey}`;
     }
     setLoading(true);
     setDisableButton(true);
@@ -69,7 +70,7 @@ function FrontPage({ selectedOption }) {
           setReloadData(false);
           setLoading(false);
         });
-    }, 1000000);
+    }, 100000000);
   }, [selectedOption, reloadData]);
 
   const getDate = (date) => {
@@ -156,7 +157,7 @@ function FrontPage({ selectedOption }) {
           {isLogin === "login" ? (
             <button
               disabled={disableButton}
-              className="btn btn-primary"
+              className="btn btn-primary reload"
               onClick={() => {
                 console.log("starting reload: ", reloadData);
                 setReloadData(true);
@@ -171,7 +172,7 @@ function FrontPage({ selectedOption }) {
           <ul className="container justify-content-center d-flex flex-wrap mt-4">
             {newsList}
           </ul>
-          <Pagination className="mt-4 d-flex justify-content-center">
+          <Pagination className="mt-4 d-flex flex-wrap justify-content-center">
             <Pagination.Prev
               onClick={handlePreviousPage}
               disabled={currentPage === 1}
